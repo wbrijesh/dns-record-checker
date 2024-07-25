@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>DNS Lookup</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="m-4 lg:m-6">
+    <h1 class="text-xl mb-3">DNS Lookup</h1>
+    <form action="/lookup" method="post" class="flex">
+      <input
+        class="px-2 py-1 rounded border border-zinc-200 focus:border-zinc-300 w-full lg:w-72"
+        placeholder="Domain"
+        id="domain"
+        name="domain"
+        required
+      />
+      <button
+        class="px-2 py-1 rounded bg-zinc-700 text-white hover:bg-zinc-900 focus:outline-none ml-2"
+        type="submit"
+      >
+        Lookup
+      </button>
+    </form>
+
+    <div id="query-message" class="mt-4 text-red-700 hidden">
+      Query submitted, please wait for a few seconds.
+    </div>
+
+    <div id="results">
+      {{ with .DNSRecord }}
+      <h2 class="mt-4 mb-2">Records for {{ .Domain }}</h2>
+
+      <details open class="mb-4">
+        <summary>A record</summary>
+        {{ if eq (len .ARecord) 0 }}
+        <p class="text-zinc-400">Not available</p>
+        {{ else }}
+        <ul class="list-none">
+          {{ range .ARecord }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </details>
+
+      <details open class="mb-4">
+        <summary>CNAME record</summary>
+        {{ if eq .CNAME "" }}
+        <p class="text-zinc-400">Not available</p>
+        {{ else }}
+        <p>{{ .CNAME }}</p>
+        {{ end }}
+      </details>
+
+      <details open class="mb-4">
+        <summary>MX record</summary>
+        {{ if eq (len .MXRecord) 0 }}
+        <p class="text-zinc-400">Not available</p>
+        {{ else }}
+        <ul class="list-none">
+          {{ range .MXRecord }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </details>
+
+      <details open class="mb-4">
+        <summary>NS record</summary>
+        {{ if eq (len .NSRecord) 0 }}
+        <p class="text-zinc-400">Not available</p>
+        {{ else }}
+        <ul class="list-none">
+          {{ range .NSRecord }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </details>
+
+      <details open class="mb-4">
+        <summary>TXT record</summary>
+        {{ if eq (len .TXTRecord) 0 }}
+        <p class="text-zinc-400">Not available</p>
+        {{ else }}
+        <ul class="list-none">
+          {{ range .TXTRecord }}
+          <li>{{ . }}</li>
+          {{ end }}
+        </ul>
+        {{ end }}
+      </details>
+      {{ end }}
+    </div>
+
+    <script>
+      const form = document.querySelector("form");
+      const message = document.getElementById("query-message");
+      const results = document.getElementById("results");
+
+      form.addEventListener("submit", () => {
+        message.classList.remove("hidden");
+        results.classList.add("hidden");
+      });
+    </script>
+  </body>
+</html>
