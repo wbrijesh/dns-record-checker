@@ -21,7 +21,7 @@ func main() {
 	templates = template.Must(template.ParseGlob("templates/*.html"))
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/lookup", dnsLookupHandler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8000", nil)
 }
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {

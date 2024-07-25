@@ -1,0 +1,53 @@
+= DNS Records Checker
+
+== Yet another DNS checker?
+
+I often use DNS checker tools to check that my DNS records are set up
+correctly and they work as expected. I wanted to create one of my own
+because Go made building this easy by having some basic DNS lookup
+functionality in its standard library.
+
+== Usage
+
+=== Preqrequisites
+
+* Go
+
+[source,bash]
+----
+sudo pacman -S go
+----
+
+* Clone the repository.
+
+[source,bash]
+----
+git clone https://github.com/wbrijesh/dns-record-checker.git
+----
+
+=== Run the program
+
+[source,bash]
+----
+go run main.go
+----
+
+* You can now go to localhost:8000 in your browser and enter a domain
+name to check its DNS records.
+* If you prefer to use the command line you could use curl request to
+localhost:8000/lookup and send a field called '`domain`' as form data.
+
+== Features
+
+* Checks for various DNS record types (A, CNAME, MX, NS, TXT).
+* Provides a clear and informative display of results.
+* Handles empty or missing record types gracefully.
+
+== Future Improvements
+
+* Implement caching for faster lookups.
+* Add support for additional DNS record types.
+* Improve error handling and user feedback.
+
+This tool is designed to be a basic DNS checker for quick and easy
+lookups. Enjoy!
